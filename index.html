@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clean Code — A Storybook for Software Craftsmen</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/svg+xml" href="https://pph.name.ng/pphlogo.svg">
+</head>
+<body>
+
+<!-- ============================================================
+     FRONT COVER
+     ============================================================ -->
+<section id="cover" class="book-page cover-page">
+  <div class="cover-content">
+    <p class="cover-series">A Handbook of Agile Software Craftsmanship</p>
+    <h1 class="cover-title">Clean Code</h1>
+    <p class="cover-subtitle">From a first variable name to a whole system — the craft of writing software that humans can read.</p>
+    <p class="cover-author">By Robert C. Martin, with Michael Feathers, James Grenning, Jeff Langr, Brett L. Schuchert, Kevin Dean Wampler, and Tim Ottinger</p>
+    <p class="cover-note">Three parts. Seventeen chapters. Two case studies.<br>One handbook of clean code.</p>
+    <p class="cover-credit">
+      Refactored &amp; illustrated by<br>
+      <a href="https://agunechemba.name.ng" target="_blank" rel="noopener">Agunechemba Ekene</a>
+    </p>
+  </div>
+  <div class="book-nav">
+    <button class="nav-button" data-nav="next">Begin the Journey →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     TABLE OF CONTENTS
+     ============================================================ -->
+<section id="toc" class="book-page toc-page">
+  <div class="chapter-header">
+    <h2>Table of Contents</h2>
+    <p class="chapter-tagline">Where would you like to begin?</p>
+  </div>
+
+  <div class="toc-part">
+    <h3>Part One: Principles, Patterns, and Practices</h3>
+    <ol>
+      <li><a href="#ch-clean-code">Clean Code</a></li>
+      <li><a href="#ch-meaningful-names">Meaningful Names</a></li>
+      <li><a href="#ch-functions">Functions</a></li>
+      <li><a href="#ch-comments">Comments</a></li>
+      <li><a href="#ch-formatting">Formatting</a></li>
+      <li><a href="#ch-objects-and-data-structures">Objects and Data Structures</a></li>
+      <li><a href="#ch-error-handling">Error Handling</a></li>
+      <li><a href="#ch-boundaries">Boundaries</a></li>
+      <li><a href="#ch-unit-tests">Unit Tests</a></li>
+      <li><a href="#ch-classes">Classes</a></li>
+      <li><a href="#ch-systems">Systems</a></li>
+      <li><a href="#ch-emergence">Emergence</a></li>
+      <li><a href="#ch-concurrency">Concurrency</a></li>
+    </ol>
+  </div>
+
+  <div class="toc-part">
+    <h3>Part Two: Case Studies</h3>
+    <ol start="14">
+      <li><a href="#ch-successive-refinement">Successive Refinement</a></li>
+      <li><a href="#ch-junit-internals">JUnit Internals</a></li>
+      <li><a href="#ch-refactoring-serialdate">Refactoring SerialDate</a></li>
+    </ol>
+  </div>
+
+  <div class="toc-part">
+    <h3>Part Three: Smells and Heuristics</h3>
+    <ol start="17">
+      <li><a href="#ch-smells-and-heuristics">Smells and Heuristics</a></li>
+    </ol>
+  </div>
+
+  <div class="toc-part">
+    <h3>Appendix</h3>
+    <ol>
+      <li><a href="#glossary">Glossary of Useful Terms</a></li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Cover</button>
+    <button class="nav-button" data-nav="next">Introduction →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     INTRODUCTION
+     ============================================================ -->
+<section id="intro" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Introduction</p>
+    <h2>Why Clean Code Matters</h2>
+    <p class="chapter-tagline">You are a programmer. You want to be a better one. Good — we need better programmers.</p>
+  </div>
+
+  <div class="chapter-story">
+    <p>This is a book about good programming. Not about how to program — you already know that. It is about how to write code that other human beings can read, understand, and maintain. Code that will still make sense six months from now, when the original author has moved on and the requirements have shifted.</p>
+    <p>The book has three parts. <strong>Part One</strong> lays out the principles, patterns, and practices of writing clean code: how to name things, how to write functions, how (and whether) to comment, how to format code, how to tell objects from data structures, how to handle errors, how to draw boundaries around third-party code, how to write tests, how to organise classes, how to build systems, how to let good design emerge, and how to write concurrent code that does not betray you.</p>
+    <p><strong>Part Two</strong> is a set of case studies of ever-increasing complexity: a command-line argument parser, the comparison compactor from JUnit, and a date library called SerialDate. These are not toy examples — they are real code, cleaned up step by step.</p>
+    <p><strong>Part Three</strong> is the payoff: a single chapter listing all the smells and heuristics gathered along the way, a knowledge base for thinking about code.</p>
+    <p>Every chapter follows the same shape. A short story introduces the ideas. A box of <em>Key Ideas</em> distils the takeaways. And three <em>Try It Yourself</em> questions invite you to test the ideas against your own code.</p>
+    <p>You do not need to agree with everything here. The book is opinionated, sometimes stridently so. But the opinions are grounded in decades of practice, and they are offered as a starting point for your own professional judgement.</p>
+    <p>Remember: code is read far more often than it is written. Write for the reader.</p>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Ideas</h3>
+    <ul>
+      <li>Clean code is code that is easy to read, understand, and change.</li>
+      <li>The book has three parts: principles and practices, case studies, and a catalogue of smells and heuristics.</li>
+      <li>Every chapter has a story, key ideas, a code example, and three exercises.</li>
+      <li>Code is read far more often than it is written.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-questions">
+    <h3>Try It Yourself</h3>
+    <ol>
+      <li>Look at the last function you wrote. Would a stranger understand it without asking you?</li>
+      <li>Which of the book's three parts are you most curious about?</li>
+      <li>What does "clean" mean to you, before you've read the book?</li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Table of Contents</button>
+    <button class="nav-button" data-nav="next">Part One →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     PART ONE DIVIDER
+     ============================================================ -->
+<section id="part-one" class="book-page cover-page part-page part-one">
+  <div class="cover-content">
+    <p class="part-number">Part One</p>
+    <h1>Principles, Patterns, and Practices</h1>
+    <p class="part-desc">Naming, functions, comments, formatting, objects, errors, boundaries, tests, classes, systems, emergence, and concurrency — the foundations of writing code well.</p>
+  </div>
+  <div class="book-nav">
+    <button class="nav-button" data-nav="next">Begin Chapter 1 →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 1 — CLEAN CODE
+     ============================================================ -->
+<section id="ch-clean-code" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Part One · Principles, Patterns, and Practices · Chapter 1</p>
+    <h2>Clean Code</h2>
+    <p class="chapter-tagline">There will always be code — so we may as well write it well</p>
+  </div>
+
+  <div class="chapter-story">
+    <p>Some people argue that code is on its way out — that models and requirements will replace it, that business people will generate programs from specifications, that programmers simply won't be needed. This is nonsense. Code is the language in which we express requirements. At some level those details cannot be ignored or abstracted; they have to be specified. And specifying requirements in such detail that a machine can execute them <em>is</em> programming.</p>
+    <p>We have all seen what happens when code goes bad. A company writes a killer app, rushes it to market, and makes a huge mess in the code. As they add feature after feature, the code gets worse and worse until they cannot manage it any longer. The company goes out of business. It was the bad code that brought the company down. LeBlanc's law says it all: <em>Later equals never.</em></p>
+    <p>The total cost of owning a mess is enormous. As the mess builds, team productivity asymptotically approaches zero. Management adds more staff, but the new staff don't understand the design, and they make more messes. Eventually the team rebels and demands a grand redesign in the sky — a tiger team starts over from scratch, and the race between the old and new systems can take a decade.</p>
+    <p>The fault is not in our stars but in ourselves. Managers and marketers look to us for the information they need. It is our job to defend the code with as much passion as they defend the schedule. A doctor would refuse to operate without washing his hands, even if the patient demanded it. So too a programmer must refuse to make a mess, even when the deadline is tight.</p>
+    <p>So what is clean code? Bjarne Stroustrup says it is elegant and efficient, with straightforward logic and minimal dependencies. Grady Booch says it reads like well-written prose. "Big" Dave Thomas says it can be read and enhanced by someone other than its author, and that it has unit tests. Michael Feathers says it always looks like it was written by someone who cares. Ward Cunningham says you know you are working on clean code when each routine turns out to be pretty much what you expected.</p>
+    <p>Whatever definition you prefer, one thing is clear: a programmer who writes clean code is an artist who can take a blank screen through a series of transformations until it is an elegantly coded system. And the first rule of the craft is simple: <em>leave the campground cleaner than you found it.</em></p>
+    <pre class="code-example"><code>// Bad: what does this function do?
+public List&lt;int[]&gt; getThem() {
+  List&lt;int[]&gt; list1 = new ArrayList&lt;int&gt;();
+  for (int[] x : theList)
+    if (x[0] == 4)
+      list1.add(x);
+  return list1;
+}
+
+// Good: revealing intent through names
+public List&lt;Cell&gt; getFlaggedCells() {
+  List&lt;Cell&gt; flaggedCells = new ArrayList&lt;Cell&gt;();
+  for (Cell cell : gameBoard)
+    if (cell.isFlagged())
+      flaggedCells.add(cell);
+  return flaggedCells;
+}</code></pre>
+    <p>The simplicity of the code has not changed — same number of operators, same number of nesting levels. But the code has become explicit. That is the power of choosing good names.</p>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Ideas</h3>
+    <ul>
+      <li>Code is the language in which we express requirements — it will never disappear.</li>
+      <li>Bad code brings down companies; the cost of owning a mess is enormous.</li>
+      <li>You won't make the deadline by making a mess — the only way to go fast is to keep the code clean.</li>
+      <li>Clean code is focused: each function, class, and module does one thing well.</li>
+      <li>The Boy Scout Rule: leave the campground cleaner than you found it.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-questions">
+    <h3>Try It Yourself</h3>
+    <ol>
+      <li>Find a function you wrote in the last week. Can you tell what it does from its name alone?</li>
+      <li>Which of the definitions of clean code (Stroustrup, Booch, Thomas, Feathers, Cunningham) resonates most with you? Why?</li>
+      <li>Apply the Boy Scout Rule: make one small improvement to code you are about to commit.</li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Part One</button>
+    <button class="nav-button" data-nav="next">Meaningful Names →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 2 — MEANINGFUL NAMES
+     ============================================================ -->
+<section id="ch-meaningful-names" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Part One · Principles, Patterns, and Practices · Chapter 2</p>
+    <h2>Meaningful Names</h2>
+    <p class="chapter-tagline">A name should tell you why it exists, what it does, and how it is used</p>
+  </div>
+
+  <div class="chapter-story">
+    <p>Names are everywhere in software. We name variables, functions, arguments, classes, packages, source files, directories. We name and name and name. Because we do so much of it, we had better do it well.</p>
+    <p>The name of a variable, function, or class should answer all the big questions. It should tell you why it exists, what it does, and how it is used. If a name requires a comment, then the name does not reveal its intent. Compare <code>int d; // elapsed time in days</code> with <code>int elapsedTimeInDays;</code> — the second needs no comment and cannot be misunderstood.</p>
+    <p>Avoid disinformation. Do not call a grouping of accounts an <code>accountList</code> unless it really is a <code>List</code>. Beware of names that vary in small ways: <code>XYZControllerForEfficientHandlingOfStrings</code> and <code>XYZControllerForEfficientStorageOfStrings</code> look alike and are impossible to tell apart. Avoid lower-case <code>l</code> and upper-case <code>O</code> as variable names — they look like <code>1</code> and <code>0</code>.</p>
+    <p>Make meaningful distinctions. Number-series naming (<code>a1, a2, a3</code>) is the opposite of intentional naming. Noise words are another meaningless distinction — <code>ProductInfo</code> and <code>ProductData</code> are not different from <code>Product</code> in any meaningful way. If names must be different, they should also mean something different.</p>
+    <p>Use pronounceable names, because programming is a social activity — if you cannot pronounce it, you cannot discuss it without sounding like an idiot. Use searchable names: single-letter names and numeric constants are hard to locate across a body of text. Length of a name should correspond to the size of its scope — very short names for tiny scopes, longer names for bigger ones.</p>
+    <p>Avoid encodings. Hungarian notation and <code>m_</code> member prefixes are remnants of older languages and environments. Modern IDEs and type systems make them unnecessary, and they clutter the code. Class names should be nouns; method names should be verbs. Pick one word per concept and stick with it. Don't be cute. Don't pun. Use solution domain names when you are writing about the solution, and problem domain names when you are writing about the problem. Add context — but not gratuitous context.</p>
+    <pre class="code-example"><code>// Bad: noninformative, noise words, encodings
+class DtaRcrd102 {
+  private Date genymdhms;
+  private Date modymdhms;
+  private final String pszqint = "102";
+}
+
+// Good: intention-revealing, pronounceable, searchable
+class Customer {
+  private Date generationTimestamp;
+  private Date modificationTimestamp;
+  private final String recordId = "102";
+}</code></pre>
+    <p>Intelligent conversation is now possible: "Hey, Mikey, take a look at this record! The generation timestamp is set to tomorrow's date! How can that be?"</p>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Ideas</h3>
+    <ul>
+      <li>Names should reveal intent; if a name needs a comment, the name has failed.</li>
+      <li>Avoid disinformation, noise words, encodings, and number-series naming.</li>
+      <li>Use pronounceable, searchable names — the length of a name should match its scope.</li>
+      <li>Class names are nouns; method names are verbs; pick one word per concept.</li>
+      <li>Add meaningful context, but not gratuitous context.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-questions">
+    <h3>Try It Yourself</h3>
+    <ol>
+      <li>Rename three variables in a recent program so that they reveal intent.</li>
+      <li>Find a <code>Manager</code> or <code>Processor</code> class and describe its responsibility in 25 words without using "and" or "or".</li>
+      <li>Pick a concept that appears under several different names in your code, and standardise on one.</li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Clean Code</button>
+    <button class="nav-button" data-nav="next">Functions →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 3 — FUNCTIONS
+     ============================================================ -->
+<section id="ch-functions" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Part One · Principles, Patterns, and Practices · Chapter 3</p>
+    <h2>Functions</h2>
+    <p class="chapter-tagline">Small, well-named, and doing exactly one thing</p>
+  </div>
+
+  <div class="chapter-story">
+    <p>Functions are the first line of organisation in any program. The first rule of functions is that they should be small. The second rule is that they should be smaller than that. In the 1980s we said a function should fit on a screen — 24 lines by 80 columns. Today, with big monitors, we can fit far more, but we should not. Functions should hardly ever be 20 lines long. Kent Beck's Sparkle program had functions of two, three, or four lines. Each was transparently obvious, each told a story, and each led you to the next in a compelling order.</p>
+    <p>Blocks within <code>if</code>, <code>else</code>, and <code>while</code> statements should be one line long. That line should probably be a function call with a nicely descriptive name. This keeps the enclosing function small and adds documentary value. The indent level of a function should not be greater than one or two.</p>
+    <p><strong>Functions should do one thing. They should do it well. They should do it only.</strong> But what is "one thing"? If a function performs only those steps that are one level below the stated name of the function, then it is doing one thing. A good way to know that a function is doing more than one thing is if you can extract another function from it with a name that is not merely a restatement of its implementation. Sections within a function — declarations, initialisations, sieve — are another symptom of doing more than one thing.</p>
+    <p>To make sure our functions are doing one thing, we need each statement within the function to be at the same level of abstraction. Mixing levels within a function is always confusing. Readers cannot tell whether a particular expression is an essential concept or a detail. Worse, once details are mixed with essential concepts, more and more details tend to accrete within the function.</p>
+    <p>We want code to read like a top-down narrative. Every function should be followed by those at the next level of abstraction, so that we can read the program one level at a time. This is the <em>Step-down Rule</em>.</p>
+    <p>Arguments are hard. The ideal number of arguments is zero. Next comes one, then two. Three should be avoided where possible; more than three requires very special justification. Flag arguments are ugly — passing a boolean into a function is a truly terrible practice, because it loudly proclaims that the function does more than one thing.</p>
+    <p>Side effects are lies. A function promises to do one thing, but it also does other hidden things. Sometimes it makes unexpected changes to its own class, or to its parameters, or to system globals. Temporal couplings are especially confusing when hidden as a side effect. Prefer exceptions to returning error codes: the error processing code can be separated from the happy path, and the code can be simplified. Extract the bodies of <code>try</code> and <code>catch</code> blocks into functions of their own. Error handling is one thing — a function that handles errors should do nothing else.</p>
+    <p>Duplication may be the root of all evil in software. Many principles and practices — Codd's normal forms, object-oriented programming, structured programming, aspect-oriented programming — exist at least in part to eliminate it.</p>
+    <pre class="code-example"><code>// Bad: long, mixed levels of abstraction, flag argument
+public static String testableHtml(
+    PageData pageData, boolean includeSuiteSetup) throws Exception {
+  // 30+ lines of buffer manipulation, path building, HTML generation
+}
+
+// Good: small, one level of abstraction, no flags
+public static String renderPageWithSetupsAndTeardowns(
+    PageData pageData, boolean isSuite) throws Exception {
+  if (isTestPage(pageData))
+    includeSetUpAndTeardownPages(pageData, isSuite);
+  return pageData.getHtml();
+}</code></pre>
+    <p>When you write functions, they come out long and complicated. Then you massage and refine them, splitting out functions, changing names, eliminating duplication. You don't write them clean to start — nobody could.</p>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Ideas</h3>
+    <ul>
+      <li>Functions should be small — very small — and do one thing.</li>
+      <li>One level of abstraction per function, following the Step-down Rule.</li>
+      <li>Few arguments: niladic, monadic, dyadic; avoid triads and flag arguments.</li>
+      <li>Have no side effects; prefer exceptions to error codes.</li>
+      <li>Duplication is the root of much evil — eliminate it.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-questions">
+    <h3>Try It Yourself</h3>
+    <ol>
+      <li>Take a 50-line function and extract three smaller ones.</li>
+      <li>Explain what <code>render(true)</code> does, without reading the function body.</li>
+      <li>Write an <code>isEligibleForFullBenefits()</code> function that explains a complex conditional.</li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Meaningful Names</button>
+    <button class="nav-button" data-nav="next">Comments →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 4 — COMMENTS
+     ============================================================ -->
+<section id="ch-comments" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Part One · Principles, Patterns, and Practices · Chapter 4</p>
+    <h2>Comments</h2>
+    <p class="chapter-tagline">Don't comment bad code — rewrite it</p>
+  </div>
+
+  <div class="chapter-story">
+    <p>Nothing can be quite so helpful as a well-placed comment. Nothing can clutter up a module more than frivolous dogmatic comments. Nothing can be so damaging as an old, crufty comment that propagates lies and misinformation. Comments are, at best, a necessary evil. If our programming languages were expressive enough, or if we had the talent to subtly wield them, we would not need comments very much — perhaps not at all.</p>
+    <p>The proper use of comments is to compensate for our failure to express ourselves in code. Note the word <em>failure</em>. I meant it. Comments are always failures. We must have them because we cannot always figure out how to express ourselves without them, but their use is not a cause for celebration.</p>
+    <p>Why am I so down on comments? Because they lie. Not always, not intentionally, but too often. The older a comment is, and the farther away it is from the code it describes, the more likely it is to be wrong. Programmers cannot realistically maintain them. Code changes and evolves; the comments don't always follow. Inaccurate comments are far worse than no comments at all. Truth can only be found in one place: the code.</p>
+    <p>Some comments are necessary or beneficial. <strong>Legal comments</strong> — copyright and authorship statements — are reasonable. <strong>Informative comments</strong>, such as a regex that matches a date, can help. <strong>Explanation of intent</strong> — why a decision was made — is valuable. <strong>Clarification</strong> of an obscure argument or return value can help when you cannot change the code. <strong>Warning of consequences</strong> — "don't run unless you have time to kill" — is useful. <strong>TODO comments</strong> are reasonable as reminders. <strong>Amplification</strong> — pointing out why something that looks inconsequential matters — can help. Well-written <strong>Javadocs in public APIs</strong> are invaluable.</p>
+    <p>Bad comments fall into many categories. <strong>Mumbling</strong> — a comment plopped in because the process requires it — helps no one. <strong>Redundant comments</strong> restate what the code already says. <strong>Misleading comments</strong> are worse than no comment at all. <strong>Mandated comments</strong> — a Javadoc on every function — clutter up the code. <strong>Journal comments</strong> — change logs at the top of a module — belong in source code control. <strong>Noise comments</strong> — "the default constructor" — state the obvious. <strong>Position markers</strong>, <strong>closing brace comments</strong>, and <strong>attributions</strong> are clutter. <strong>Commented-out code</strong> is an abomination; the source code control system remembers it for you. <strong>HTML comments</strong> in source code are hard to read in the editor. <strong>Nonlocal information</strong> — system-wide context in a local comment — is misleading. <strong>Too much information</strong> — a comment that rambles — is noise. <strong>Inobvious connections</strong> — comments that no longer connect to the code — are dead weight. <strong>Function headers</strong> — when a good name would do — are unnecessary.</p>
+    <pre class="code-example"><code>// Bad: redundant
+i++; // increment i
+
+// Bad: misleading (returns true, not "when this.closed is true")
+// Utility method that returns when this.closed is true.
+public synchronized void waitForClose(final long timeoutMillis) { /* ... */ }
+
+// Good: explains intent
+// format matched kk:mm:ss EEE, MMM dd, yyyy
+Pattern timeMatcher = Pattern.compile(
+  "\\d*:\\d*:\\d* \\w*, \\w* \\d*, \\d*");
+
+// Good: don't use a comment when you can use a function
+// Before:
+// Check to see if the employee is eligible for full benefits
+if ((employee.flags &amp; HOURLY_FLAG) &amp;&amp; (employee.age &gt; 65))
+
+// After:
+if (employee.isEligibleForFullBenefits())</code></pre>
+    <p>Clear and expressive code with few comments is far superior to cluttered and complex code with lots of comments. Rather than spend your time writing comments that explain the mess you've made, spend it cleaning that mess.</p>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Ideas</h3>
+    <ul>
+      <li>Comments are, at best, a necessary evil — a failure to express ourselves in code.</li>
+      <li>Good comments: legal, informative, explanation of intent, warning, TODO, Javadocs in public APIs.</li>
+      <li>Bad comments: redundant, misleading, mandated, noise, commented-out code.</li>
+      <li>Don't use a comment when a function or variable would do.</li>
+      <li>Explain yourself in code; let the names and structure carry the message.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-questions">
+    <h3>Try It Yourself</h3>
+    <ol>
+      <li>Find a comment in your code and see whether you can eliminate it by renaming a variable or extracting a function.</li>
+      <li>Delete a block of commented-out code — your source control system still remembers it.</li>
+      <li>Convert a "what" comment into a "why" comment, or eliminate it.</li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Functions</button>
+    <button class="nav-button" data-nav="next">Formatting →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 5 — FORMATTING
+     ============================================================ -->
+<section id="ch-formatting" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Part One · Principles, Patterns, and Practices · Chapter 5</p>
+    <h2>Formatting</h2>
+    <p class="chapter-tagline">Communication is the professional developer's first order of business</p>
+  </div>
+
+  <div class="chapter-story">
+    <p>When people look under the hood of your code, you want them to be impressed with the neatness, consistency, and attention to detail. You want them to perceive that professionals have been at work. If instead they see a scrambled mass of code that looks like it was written by a bevy of drunken sailors, they are likely to conclude that the same inattention to detail pervades every other aspect of the project.</p>
+    <p><strong>Vertical formatting</strong> begins with file size. FitNesse, at nearly 50,000 lines, is built out of files that are typically 200 lines long, with an upper limit of 500. Small files are easier to understand than large files are. The <em>newspaper metaphor</em> helps: the name of a source file should be simple but explanatory; the topmost parts should provide the high-level concepts and algorithms; detail should increase as you move downward.</p>
+    <p>Nearly all code is read left to right and top to bottom. Each line represents an expression, and each group of lines represents a complete thought. Those thoughts should be separated from each other with blank lines. Vertical density, on the other hand, implies close association — lines of code that are tightly related should appear vertically dense. Concepts that are closely related should be kept vertically close to each other.</p>
+    <p>Variable declarations should be as close to their usage as possible. Control variables for loops should usually be declared within the loop statement. Instance variables, on the other hand, should be declared at the top of the class, so that everyone knows where to go to see them.</p>
+    <p><strong>Horizontal formatting</strong>: how wide should a line be? Analysis of seven projects shows a remarkable regularity around 45 characters, with a long tail above 80. The old Hollerith limit of 80 is a bit arbitrary, and I am not opposed to lines edging out to 100 or even 120 — but beyond that is probably careless. Use horizontal white space to associate things that are strongly related and to disassociate things that are more weakly related.</p>
+    <p>Indentation is the way we make the hierarchy of scopes visible. Without indentation, programs would be virtually unreadable by humans. Don't break indentation for short <code>if</code> statements or short functions — expand and indent instead. Dummy scopes should be properly indented and surrounded by braces; a semicolon silently sitting at the end of a <code>while</code> loop on the same line is too easy to miss.</p>
+    <p>A team of developers should agree on a single formatting style, and every member should use it. The title of this section is a play on words: every programmer has favourite rules, but if he works in a team, <em>the team</em> rules.</p>
+    <pre class="code-example"><code>// Good: each function fits on one screen; concepts separated by blank lines
+private void measureLine(String line) {
+  lineCount++;
+  int lineSize = line.length();
+  totalChars += lineSize;
+  lineWidthHistogram.addLine(lineSize, lineCount);
+  recordWidthLine(lineSize);
+}
+
+// Good: prefer unaligned assignments — the list length tells a story
+public class FitNesseExpediter implements ResponseSender {
+  private Socket socket;
+  private InputStream input;
+  private OutputStream output;
+  private Request request;
+  // ...
+}</code></pre>
+    <p>Remember: a good software system is composed of a set of documents that read nicely. They need to have a consistent and smooth style. The last thing we want to do is add more complexity to the source code by writing it in a jumble of different individual styles.</p>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Ideas</h3>
+    <ul>
+      <li>Formatting is about communication — treat it as a first-class concern.</li>
+      <li>Vertical: small files (≈200 lines typical, 500 max), newspaper metaphor, blank lines between concepts, density where appropriate.</li>
+      <li>Horizontal: short lines (≈120 characters max), white space to show association, indentation to show hierarchy.</li>
+      <li>Team rules override personal preference — agree on a style and encode it in your formatter.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-questions">
+    <h3>Try It Yourself</h3>
+    <ol>
+      <li>Count the lines in the largest source file you own. If it is over 500, find a way to split it.</li>
+      <li>Add blank lines between the package declaration, the imports, and each method in a file.</li>
+      <li>Agree on a brace style with your team and configure your formatter to enforce it.</li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Comments</button>
+    <button class="nav-button" data-nav="next">Objects and Data Structures →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 6 — OBJECTS AND DATA STRUCTURES
+     ============================================================ -->
+<section id="ch-objects-and-data-structures" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Part One · Principles, Patterns, and Practices · Chapter 6</p>
+    <h2>Objects and Data Structures</h2>
+    <p class="chapter-tagline">Objects hide data; data structures expose it</p>
+  </div>
+
+  <div class="chapter-story">
+    <p>There is a reason we keep our variables private: we don't want anyone else to depend on them. We want the freedom to change their type or implementation on a whim. So why do so many programmers automatically add getters and setters, exposing their private variables as though they were public?</p>
+    <p>Consider two representations of a point on the Cartesian plane. The first exposes its implementation — <code>public double x;</code> and <code>public double y;</code>. The second hides it behind an interface: <code>double getX();</code>, <code>double getY();</code>, <code>void setCartesian(double x, double y);</code>, <code>double getR();</code>, <code>double getTheta();</code>, <code>void setPolar(double r, double theta);</code>. With the first, you can tell the implementation is rectangular. With the second, you cannot tell whether the implementation is rectangular or polar — and it does not matter.</p>
+    <p>Hiding implementation is not just a matter of putting a layer of functions between the variables. Hiding implementation is about abstractions. A class does not simply push its variables out through getters and setters. Rather, it exposes abstract interfaces that allow its users to manipulate the <em>essence</em> of the data, without having to know its implementation.</p>
+    <p>This exposes a fundamental dichotomy between objects and data structures. <strong>Objects</strong> hide their data behind abstractions and expose functions that operate on that data. <strong>Data structures</strong> expose their data and have no meaningful functions. The two are virtual opposites.</p>
+    <p>Procedural code (using data structures) makes it easy to add new functions without changing the existing data structures. OO code makes it easy to add new classes without changing existing functions. The complement is also true: procedural code makes it hard to add new data structures because all the functions must change; OO code makes it hard to add new functions because all the classes must change. Mature programmers know that the idea that everything is an object is a myth. Sometimes you really do want simple data structures with procedures operating on them.</p>
+    <p>The <strong>Law of Demeter</strong> says that a module should not know about the innards of the objects it manipulates. More precisely, a method <em>f</em> of a class <em>C</em> should only call the methods of <em>C</em>, of an object created by <em>f</em>, of an object passed as an argument to <em>f</em>, or of an object held in an instance variable of <em>C</em>. The method should not invoke methods on objects that are returned by any of the allowed functions. In other words, talk to friends, not to strangers.</p>
+    <p>Chains of calls like <code>ctxt.getOptions().getScratchDir().getAbsolutePath()</code> are often called <em>train wrecks</em>. Split them up. If <code>ctxt</code>, <code>Options</code>, and <code>ScratchDir</code> are objects, their internal structure should be hidden. If they are just data structures with no behaviour, then Demeter does not apply.</p>
+    <p>Hybrids — half object, half data structure — are the worst of both worlds. They make it hard to add new functions <em>and</em> hard to add new data structures. Avoid creating them. And remember: the quintessential form of a data structure is the <strong>Data Transfer Object</strong>, a class with public variables and no functions. <strong>Active Records</strong> are special forms of DTOs — data structures with public variables but with navigational methods like <code>save</code> and <code>find</code>. Treat them as data structures, and create separate objects for business rules.</p>
+    <pre class="code-example"><code>// Train wreck — violates the Law of Demeter
+final String outputDir = ctxt.getOptions().getScratchDir().getAbsolutePath();
+
+// Better: split it up
+Options opts = ctxt.getOptions();
+File scratchDir = opts.getScratchDir();
+final String outputDir = scratchDir.getAbsolutePath();
+
+// Even better: tell, don't ask
+BufferedOutputStream bos = ctxt.createScratchFileStream(classFileName);</code></pre>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Ideas</h3>
+    <ul>
+      <li>Objects hide data and expose behaviour; data structures expose data and have no behaviour.</li>
+      <li>Objects make it easy to add new types; data structures make it easy to add new functions.</li>
+      <li>Law of Demeter: talk to friends, not strangers; avoid train wrecks.</li>
+      <li>Avoid hybrids that are half object, half data structure.</li>
+      <li>Use DTOs for pure data transfer; treat Active Records as data structures.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-questions">
+    <h3>Try It Yourself</h3>
+    <ol>
+      <li>Take a class with public fields and hide them behind behaviour — not just getters and setters.</li>
+      <li>Find a train wreck in your code and split it up, or better: replace it with a message to the first object.</li>
+      <li>Classify three classes in your project as objects or data structures. Are any hybrids? Refactor them.</li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Formatting</button>
+    <button class="nav-button" data-nav="next">Error Handling →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 7 — ERROR HANDLING
+     ============================================================ -->
+<section id="ch-error-handling" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Part One · Principles, Patterns, and Practices · Chapter 7</p>
+    <h2>Error Handling</h2>
+    <p class="chapter-tagline">If error handling obscures logic, it's wrong</p>
+  </div>
+
+  <div class="chapter-story">
+    <p>Error handling is just one of those things that we all have to do when we program. Input can be abnormal and devices can fail. In short, things can go wrong, and when they do, we as programmers are responsible for making sure our code does what it needs to do. The connection to clean code is clear: many code bases are completely dominated by error handling, so that it is nearly impossible to see what the code does. Error handling is important, but if it obscures logic, it's wrong.</p>
+    <p>Back in the distant past, many languages didn't have exceptions. You either set an error flag or returned an error code that the caller could check. The problem with these approaches is that they clutter the caller — the caller must check for errors immediately after the call. It is better to throw an exception when you encounter an error. The calling code is cleaner, and two concerns that were tangled — the algorithm and error handling — are now separated.</p>
+    <p>Write your <code>try-catch-finally</code> statement first. When you execute code in the <code>try</code> portion, you are stating that execution can abort at any point and then resume at the <code>catch</code>. In a way, <code>try</code> blocks are like transactions: your <code>catch</code> has to leave your program in a consistent state, no matter what happens. Start with a <code>try-catch-finally</code> statement; use TDD to force exceptions, and add behaviour to your handler to satisfy your tests.</p>
+    <p>Use <strong>unchecked exceptions</strong>. The price of checked exceptions is an Open/Closed Principle violation. If you throw a checked exception from a method in your code, and the <code>catch</code> is three levels above, you must declare that exception in the signature of each method between you and the <code>catch</code>. This means a change at a low level of the software can force signature changes on many higher levels. Encapsulation is broken because all functions in the path of a throw must know about details of that low-level exception.</p>
+    <p>Each exception you throw should provide enough context to determine the source and location of an error. Create informative error messages and pass them along with your exceptions. Define exception classes in terms of a caller's needs. Often a single exception class is fine for a particular area of code — the information sent with the exception can distinguish the errors. Wrapping third-party APIs is a best practice: you minimise your dependencies on it, and you can define the API you are comfortable with.</p>
+    <p>Define the normal flow. In business applications, some code paths are not exceptional — a per-diem meal expense, for example, is a normal part of the business, not an error. Use the <strong>Special Case Pattern</strong>: create a class or configure an object that handles a special case for you. The client code doesn't have to deal with exceptional behaviour.</p>
+    <p>Don't return null. When we return null, we are essentially creating work for ourselves and foisting problems upon our callers. If you are tempted to return null, consider throwing an exception or returning a special case object instead. Don't pass null either: unless you are working with an API that expects it, you should avoid passing null in your code whenever possible.</p>
+    <pre class="code-example"><code>// Bad: error codes clutter the caller
+if (deletePage(page) == E_OK) {
+  if (registry.deleteReference(page.name) == E_OK) {
+    if (configKeys.deleteKey(page.name.makeKey()) == E_OK) {
+      logger.log("page deleted");
+    } else {
+      logger.log("configKey not deleted");
+    }
+  } else {
+    logger.log("deleteReference from registry failed");
+  }
+} else {
+  logger.log("delete failed");
+  return E_ERROR;
+}
+
+// Good: exceptions separate the happy path
+try {
+  deletePage(page);
+  registry.deleteReference(page.name);
+  configKeys.deleteKey(page.name.makeKey());
+} catch (Exception e) {
+  logger.log(e.getMessage());
+}</code></pre>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Ideas</h3>
+    <ul>
+      <li>Error handling is a separate concern; keep it from obscuring logic.</li>
+      <li>Prefer exceptions to returning error codes.</li>
+      <li>Write the <code>try-catch-finally</code> statement first; it defines a transaction scope.</li>
+      <li>Use unchecked exceptions, provide context with exceptions, and define exception classes by caller needs.</li>
+      <li>Don't return null and don't pass null.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-questions">
+    <h3>Try It Yourself</h3>
+    <ol>
+      <li>Replace an error-code return with a thrown exception, and simplify the caller.</li>
+      <li>Wrap a third-party API so that it throws a single exception type of your own.</li>
+      <li>Find a null check that could be replaced by returning an empty collection.</li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Objects and Data Structures</button>
+    <button class="nav-button" data-nav="next">Boundaries →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 8 — BOUNDARIES
+     ============================================================ -->
+<section id="ch-boundaries" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Part One · Principles, Patterns, and Practices · Chapter 8</p>
+    <h2>Boundaries</h2>
+    <p class="chapter-tagline">Clean integration with code you don't control</p>
+  </div>
+
+  <div class="chapter-story">
+    <p>We seldom control all the software in our systems. Sometimes we buy third-party packages or use open source. Other times we depend on teams in our own company to produce components or subsystems for us. Somehow we must cleanly integrate this foreign code with our own.</p>
+    <p>There is a natural tension between the provider of an interface and the user of an interface. Providers of third-party packages and frameworks strive for broad applicability so they can work in many environments and appeal to a wide audience. Users, on the other hand, want an interface that is focused on their particular needs. This tension can cause problems at the boundaries of our systems.</p>
+    <p>Take <code>java.util.Map</code>. It has a very broad interface with plenty of capabilities. If our application builds up a <code>Map</code> and passes it around, any user of that <code>Map</code> has the power to <code>clear()</code> it, and <code>Map</code>s do not reliably constrain the types of objects placed within them. A cleaner way to use <code>Map</code> might be to hide it inside a <code>Sensors</code> class — the interface at the boundary is hidden, and the use of generics is no longer a big issue because the casting and type management is handled inside the <code>Sensors</code> class.</p>
+    <p>Learning third-party code is hard, and integrating it is hard too. Doing both at the same time is doubly hard. Instead of experimenting and trying out the new stuff in production code, write <strong>learning tests</strong> — tests that call the third-party API the way you expect to use it in your application. These tests focus on what you want out of the API, and they end up costing nothing: you had to learn the API anyway, and the tests verify that the third-party packages work the way you expect them to. When there are new releases of the third-party package, you run the learning tests to see whether there are behavioural differences.</p>
+    <p>There is another kind of boundary, one that separates the known from the unknown. Sometimes what is on the other side of the boundary is unknowable. The team I worked with was developing software for a radio communications system, and there was a subsystem — the "Transmitter" — that we knew little about, and the people responsible had not defined their interface. Rather than being blocked, we defined our own interface, <code>Transmitter</code>, with a method <code>transmit(frequency, stream)</code>. We wrote the interface we wished we had. When the transmitter API was finally defined, we wrote an <code>Adapter</code> to bridge the gap. Code at the boundaries needs clear separation and tests that define expectations.</p>
+    <pre class="code-example"><code>// Clean boundary: hide Map behind a class
+public class Sensors {
+  private Map sensors = new HashMap();
+
+  public Sensor getById(String id) {
+    return (Sensor) sensors.get(id);
+  }
+}
+
+// Adapter for an unknown subsystem
+public interface Transmitter {
+  void transmit(double frequency, InputStream data);
+}
+
+public class TransmitterAdapter implements Transmitter {
+  private final TransmitterApi api;
+
+  public void transmit(double frequency, InputStream data) {
+    // Translate our interface into the vendor's API
+    api.setFrequency(frequency);
+    api.sendStream(data);
+  }
+}</code></pre>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Ideas</h3>
+    <ul>
+      <li>Third-party code has a natural tension with your needs.</li>
+      <li>Keep boundary interfaces inside the class or close family of classes where they are used.</li>
+      <li>Write learning tests for third-party code — they end up costing nothing.</li>
+      <li>Use the Adapter pattern to wrap unknown or not-yet-designed APIs.</li>
+      <li>Clean boundaries need clear separation and tests that define expectations.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-questions">
+    <h3>Try It Yourself</h3>
+    <ol>
+      <li>Wrap a <code>Map</code> or similar generic interface in your codebase behind a class of your own.</li>
+      <li>Write a learning test for a library you are using.</li>
+      <li>Define the interface you wish you had for an unknown subsystem, and write an Adapter for it.</li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Error Handling</button>
+    <button class="nav-button" data-nav="next">Unit Tests →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 9 — UNIT TESTS
+     ============================================================ -->
+<section id="ch-unit-tests" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Part One · Principles, Patterns, and Practices · Chapter 9</p>
+    <h2>Unit Tests</h2>
+    <p class="chapter-tagline">Test code is just as important as production code</p>
+  </div>
+
+  <div class="chapter-story">
+    <p>Our profession has come a long way. In 1997 no one had heard of Test Driven Development. Unit tests were short bits of throwaway code that we wrote to make sure our programs "worked." Today, TDD is one of our most fundamental disciplines — but in the mad rush to add testing, many programmers have missed some of the more subtle, and important, points of writing good tests.</p>
+    <p>The <strong>Three Laws of TDD</strong>: First, you may not write production code until you have written a failing unit test. Second, you may not write more of a unit test than is sufficient to fail — not compiling is failing. Third, you may not write more production code than is sufficient to pass the currently failing test. These three laws lock you into a cycle that is perhaps thirty seconds long.</p>
+    <p>Test code is just as important as production code. It is not a second-class citizen. It requires thought, design, and care. It must be kept as clean as production code. The team I coached decided that their test code should not be maintained to the same standards of quality as their production code — "quick and dirty" was the watchword. What they did not realise was that having dirty tests is equivalent to, if not worse than, having no tests. The dirtier the tests, the harder they are to change. Eventually the team discarded the test suite entirely, and their defect rate began to rise.</p>
+    <p>What makes a clean test? Readability, readability, and readability. What makes tests readable is the same thing that makes all code readable: clarity, simplicity, and density of expression. Build a <strong>domain-specific testing language</strong> — a set of functions and utilities that make the tests convenient to write and easier to read. <strong>Build-Operate-Check</strong>: each test is clearly split into three parts — the data, the operation, and the check.</p>
+    <p><strong>One assert per test</strong> is a good guideline, but not a rule. <strong>One concept per test</strong> is better. Don't write long test functions that go testing one miscellaneous thing after another. Test a single concept in each test function.</p>
+    <p><strong>F.I.R.S.T.</strong>: Fast (tests should run quickly), Independent (tests should not depend on each other), Repeatable (tests should be repeatable in any environment), Self-Validating (tests should have a boolean output), and Timely (tests need to be written in a timely fashion — just before the production code that makes them pass). If you let the tests rot, then your code will rot too.</p>
+    <pre class="code-example"><code>// Clean test with a domain-specific language
+@Test
+public void turnOnLoTempAlarmAtThreshold() throws Exception {
+  wayTooCold();
+  assertEquals("HBchL", hw.getState());
+}
+
+// Instead of many asserts scattered across a long test:
+@Test
+public void testGetPageHierarchyAsXml() throws Exception {
+  makePages("PageOne", "PageOne.ChildOne", "PageTwo");
+  submitRequest("root", "type:pages");
+  assertResponseIsXML();
+  assertResponseContains(
+    "&lt;name&gt;PageOne&lt;/name&gt;",
+    "&lt;name&gt;PageTwo&lt;/name&gt;",
+    "&lt;name&gt;ChildOne&lt;/name&gt;"
+  );
+}</code></pre>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Ideas</h3>
+    <ul>
+      <li>Three Laws of TDD: fail first, just enough test, just enough code.</li>
+      <li>Test code is as important as production code — keep it clean.</li>
+      <li>Tests enable the -ilities; dirty tests slow you down, then stop you.</li>
+      <li>One concept per test; use domain-specific testing language; minimise asserts.</li>
+      <li>F.I.R.S.T.: Fast, Independent, Repeatable, Self-Validating, Timely.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-questions">
+    <h3>Try It Yourself</h3>
+    <ol>
+      <li>Refactor a messy test using a domain-specific language of your own.</li>
+      <li>Split a test that checks multiple concepts into separate tests.</li>
+      <li>Time a single test. If it is slow, make it faster.</li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Boundaries</button>
+    <button class="nav-button" data-nav="next">Classes →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 10 — CLASSES
+     ============================================================ -->
+<section id="ch-classes" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Part One · Principles, Patterns, and Practices · Chapter 10</p>
+    <h2>Classes</h2>
+    <p class="chapter-tagline">Small, single-purpose, and organised for change</p>
+  </div>
+
+  <div class="chapter-story">
+    <p>Following the standard Java convention, a class should begin with a list of variables. Public static constants first, then private static variables, then private instance variables. Public functions follow the list of variables, with the private utilities called by a public function right after the public function itself. This follows the step-down rule and helps the program read like a newspaper article. We like to keep our variables and utility functions private, but we're not fanatics — tests rule. If a test in the same package needs to call a function or access a variable, we'll make it protected or package scope. Loosening encapsulation is always a last resort.</p>
+    <p>The first rule of classes is that they should be small. The second rule is that they should be smaller than that. With functions, we measured size by counting physical lines. With classes, we count <strong>responsibilities</strong>. The <code>SuperDashboard</code> class in the book exposes about 70 public methods — most developers would agree that it is a "God class." But even a five-method class can have too many responsibilities. The name of a class should describe what responsibility it fulfils. If we cannot derive a concise name, then it is likely too large. We should also be able to write a brief description of the class in about 25 words, without using the words "if," "and," "or," or "but."</p>
+    <p>The <strong>Single Responsibility Principle</strong> (SRP) states that a class or module should have one, and only one, reason to change. This principle gives us both a definition of responsibility and a guideline for class size. <code>SuperDashboard</code> tracks version information <em>and</em> manages Swing components — two reasons to change. Extract the version information into its own <code>Version</code> class, and the class becomes reusable elsewhere. SRP is one of the more important concepts in OO design, and one of the simpler to understand — yet it is often the most abused. Getting software to work and making software clean are two very different activities.</p>
+    <p><strong>Cohesion</strong>: classes should have a small number of instance variables, and each method should manipulate one or more of those variables. In general, the more variables a method manipulates, the more cohesive that method is to its class. A class in which each variable is used by each method is maximally cohesive. When cohesion is high, the methods and variables of the class are co-dependent and hang together as a logical whole. Maintaining cohesion results in many small classes: split a large function into many smaller functions, and you often get the opportunity to split several smaller classes out as well.</p>
+    <p><strong>Organising for change</strong>: for most systems, change is continual. Every change subjects us to the risk that the remainder of the system no longer works as intended. In a clean system we organise our classes so as to reduce the risk of change. The <code>Sql</code> class is a good example: it must change when we add a new type of statement, and it must change when we alter the details of a single statement type. Two reasons to change — a clear SRP violation. The solution is a set of closed classes, each with a single responsibility, supporting the <strong>Open-Closed Principle</strong>: classes should be open for extension but closed for modification.</p>
+    <p><strong>Isolating from change</strong>: needs will change, therefore code will change. A client class depending on concrete details is at risk when those details change. Introduce interfaces and abstract classes to help isolate the impact. The <strong>Dependency Inversion Principle</strong> (DIP) says our classes should depend upon abstractions, not on concrete details.</p>
+    <pre class="code-example"><code>// Extract version information into its own single-responsibility class
+public class Version {
+  public int getMajorVersionNumber() { /* ... */ }
+  public int getMinorVersionNumber() { /* ... */ }
+  public int getBuildNumber() { return 0; }
+}
+
+// Depend on an abstraction, not a concrete detail
+public class Portfolio {
+  private StockExchange exchange;
+
+  public Portfolio(StockExchange exchange) {
+    this.exchange = exchange;
+  }
+
+  // ...
+}
+
+public interface StockExchange {
+  Money currentPrice(String symbol);
+}</code></pre>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Ideas</h3>
+    <ul>
+      <li>Classes should be small — measured by responsibilities, not lines.</li>
+      <li>SRP: a class should have one, and only one, reason to change.</li>
+      <li>High cohesion: methods and variables hang together as a logical whole.</li>
+      <li>Organise for change; Open-Closed Principle; DIP: depend on abstractions, not concrete details.</li>
+      <li>Extract smaller classes from big functions; split classes that lose cohesion.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-questions">
+    <h3>Try It Yourself</h3>
+    <ol>
+      <li>Write a 25-word description of one of your classes, without using "and" or "or".</li>
+      <li>Split a class with two responsibilities into two single-responsibility classes.</li>
+      <li>Refactor a class that depends on a concrete external API to depend on an interface instead.</li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Unit Tests</button>
+    <button class="nav-button" data-nav="next">Systems →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 11 — SYSTEMS
+     ============================================================ -->
+<section id="ch-systems" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Part One · Principles, Patterns, and Practices · Chapter 11</p>
+    <h2>Systems</h2>
+    <p class="chapter-tagline">Staying clean at the higher levels of abstraction</p>
+  </div>
+
+  <div class="chapter-story">
+    <p>Could you manage all the details of a city yourself? Probably not. Even managing an existing city is too much for one person. Yet cities work because they have teams of people who manage particular parts of the city — water systems, power systems, traffic, law enforcement, building codes. Cities also work because they have evolved appropriate levels of abstraction and modularity that make it possible for individuals and the "components" they manage to work effectively, even without understanding the big picture. Software teams are often organised like that too — but the systems they work on often don't have the same separation of concerns.</p>
+    <p>The first concern is the startup process. Software systems should separate the startup process — when the application objects are constructed and the dependencies are "wired" together — from the runtime logic that takes over after startup. Most applications don't do this: startup code is ad hoc and mixed in with the runtime logic. The <strong>LAZY INITIALIZATION</strong> idiom is the classic example. One occurrence isn't a serious problem, but there are normally many instances of little setup idioms scattered across the application, with little modularity and significant duplication.</p>
+    <p>One way to separate construction from use is simply to move all aspects of construction to <code>main</code>, or modules called by <code>main</code>, and design the rest of the system assuming that all objects have been constructed and wired up appropriately. The flow of control is easy to follow; the application has no knowledge of <code>main</code> or of the construction process.</p>
+    <p>Sometimes the application must be responsible for when an object gets created. In this case, use the <strong>Abstract Factory</strong> pattern to give the application control of <em>when</em> to build the objects, but keep the details of the construction separate from the application code. Or use <strong>Dependency Injection</strong> (DI) — the application of Inversion of Control to dependency management. The class takes no direct steps to resolve its dependencies; it is completely passive. Instead, it provides setter methods or constructor arguments (or both) that are used to inject the dependencies.</p>
+    <p><strong>Scaling up</strong>: it is a myth that we can get systems "right the first time." Instead, we should implement only today's stories, then refactor and expand the system to implement new stories tomorrow. This is the essence of iterative and incremental agility. Software systems are unique compared to physical systems: their architectures can grow incrementally, <em>if we maintain the proper separation of concerns</em>.</p>
+    <p><strong>Cross-cutting concerns</strong>: concerns like persistence, security, and transactions tend to cut across the natural object boundaries of a domain. You want to persist all your objects using generally the same strategy, but in practice you have to spread essentially the same code across many objects. <strong>Aspect-oriented programming</strong> (AOP) is a general-purpose approach to restoring modularity for cross-cutting concerns. In AOP, modular constructs called <em>aspects</em> specify which points in the system should have their behaviour modified in some consistent way.</p>
+    <p><strong>Test drive the system architecture</strong>: if you can write your application's domain logic using POJOs, decoupled from any architecture concerns at the code level, then it is possible to truly test drive your architecture. You can evolve it from simple to sophisticated as needed. <strong>Use standards wisely</strong>, when they add demonstrable value. And remember: <strong>systems need domain-specific languages</strong> — small scripting languages or APIs in standard languages that permit code to be written so that it reads like a structured form of prose a domain expert might write.</p>
+    <pre class="code-example"><code>// Bad: lazy initialization with a hard-coded dependency
+public Service getService() {
+  if (service == null)
+    service = new MyServiceImpl(); // good enough for most cases?
+  return service;
+}
+
+// Good: dependency injection
+public class Application {
+  private Service service;
+
+  public Application(Service service) {
+    this.service = service;
+  }
+}</code></pre>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Ideas</h3>
+    <ul>
+      <li>Separate construction from use; move construction to <code>main</code> or a factory.</li>
+      <li>Use Dependency Injection to invert control of dependency management.</li>
+      <li>Architectures can grow incrementally, if we maintain the separation of concerns.</li>
+      <li>Use AOP to handle cross-cutting concerns non-invasively.</li>
+      <li>POJOs plus aspect-like mechanisms let you test-drive the architecture.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-questions">
+    <h3>Try It Yourself</h3>
+    <ol>
+      <li>Move setup code out of a class into <code>main</code> or a factory.</li>
+      <li>Replace a <code>new</code> call in business logic with an injected dependency.</li>
+      <li>Identify a cross-cutting concern in your codebase and describe how you would weave it in non-invasively.</li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Classes</button>
+    <button class="nav-button" data-nav="next">Emergence →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 12 — EMERGENCE
+     ============================================================ -->
+<section id="ch-emergence" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Part One · Principles, Patterns, and Practices · Chapter 12</p>
+    <h2>Emergence</h2>
+    <p class="chapter-tagline">Four simple rules that produce good design</p>
+  </div>
+
+  <div class="chapter-story">
+    <p>What if there were four simple rules that you could follow that would help you create good designs as you worked? What if by following these rules you gained insights into the structure and design of your code, making it easier to apply principles such as SRP and DIP? Many of us feel that Kent Beck's four rules of <strong>Simple Design</strong> are of significant help in creating well-designed software.</p>
+    <p>According to Kent, a design is "simple" if it follows these rules, given in order of importance: <strong>Runs all the tests</strong>; <strong>Contains no duplication</strong>; <strong>Expresses the intent of the programmer</strong>; <strong>Minimises the number of classes and methods</strong>.</p>
+    <p><strong>Runs all the tests</strong>: first and foremost, a design must produce a system that acts as intended. A system that is comprehensively tested and passes all its tests all of the time is a testable system. Making our systems testable pushes us toward a design where our classes are small and single-purpose. It's just easier to test classes that conform to the SRP. The more tests we write, the more we use principles like DIP and tools like dependency injection, interfaces, and abstraction to minimise coupling. Remarkably, following a simple and obvious rule that says we need to have tests and run them continuously impacts our system's adherence to the primary OO goals of low coupling and high cohesion.</p>
+    <p><strong>No duplication</strong>: duplication is the primary enemy of a well-designed system. It represents additional work, additional risk, and additional unnecessary complexity. Duplication manifests in many forms. Lines of code that look exactly alike are, of course, duplication. Lines of code that are similar can often be massaged to look even more alike. And duplication can exist in other forms, such as duplication of implementation — for example, a <code>size()</code> method and an <code>isEmpty()</code> method that could be tied together. Creating a clean system requires the will to eliminate duplication, even in just a few lines of code.</p>
+    <p><strong>Expressive</strong>: most of us have had the experience of working on convoluted code. The majority of the cost of a software project is in long-term maintenance. In order to minimise the potential for defects as we introduce change, it's critical for us to be able to understand what a system does. You can express yourself by choosing good names, by keeping functions and classes small, and by using standard nomenclature — design patterns are largely about communication and expressiveness. But the most important way to be expressive is to try. Take a little pride in your workmanship.</p>
+    <p><strong>Minimal classes and methods</strong>: even concepts as fundamental as elimination of duplication, code expressiveness, and the SRP can be taken too far. In an effort to make our classes and methods small, we might create too many tiny classes and methods. So this rule suggests that we also keep our function and class counts low. Our goal is to keep our overall system small while also keeping our functions and classes small.</p>
+    <pre class="code-example"><code>// Duplication: size() and isEmpty() track the same thing
+int size() { /* ... */ }
+boolean isEmpty() {
+  return 0 == size();
+}
+
+// Template Method: eliminate higher-level duplication
+public abstract class VacationPolicy {
+  public void accrueVacation() {
+    calculateBaseVacationHours();
+    alterForLegalMinimums();
+    applyToPayroll();
+  }
+  private void calculateBaseVacationHours() { /* ... */ }
+  protected abstract void alterForLegalMinimums();
+  private void applyToPayroll() { /* ... */ }
+}</code></pre>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Ideas</h3>
+    <ul>
+      <li>Four rules of simple design, in order of importance: runs all tests, no duplication, expresses intent, minimises classes and methods.</li>
+      <li>Writing tests pushes your design toward low coupling and high cohesion.</li>
+      <li>Duplication is the primary enemy of a well-designed system — eliminate it.</li>
+      <li>Express yourself through names, small classes, standard nomenclature, and well-written tests.</li>
+      <li>Minimise classes and methods — but not so far that you create a swarm of tiny classes.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-questions">
+    <h3>Try It Yourself</h3>
+    <ol>
+      <li>Find duplication in your code and extract a method to eliminate it.</li>
+      <li>Explain a function's intent to a colleague without reading its body.</li>
+      <li>Count the classes in your last project. Are any of them doing nothing? Delete them.</li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Systems</button>
+    <button class="nav-button" data-nav="next">Concurrency →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 13 — CONCURRENCY
+     ============================================================ -->
+<section id="ch-concurrency" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Part One · Principles, Patterns, and Practices · Chapter 13</p>
+    <h2>Concurrency</h2>
+    <p class="chapter-tagline">Clean concurrent code is hard — very hard</p>
+  </div>
+
+  <div class="chapter-story">
+    <p>Writing clean concurrent programs is hard — very hard. It is much easier to write code that executes in a single thread. It is also easy to write multithreaded code that looks fine on the surface but is broken at a deeper level. Such code works fine until the system is placed under stress.</p>
+    <p><strong>Why concurrency?</strong> Concurrency is a decoupling strategy. It helps us decouple <em>what</em> gets done from <em>when</em> it gets done. From a structural point of view, the application looks like many little collaborating computers rather than one big main loop. This can make the system easier to understand and offers some powerful ways to separate concerns. Some systems have response time and throughput constraints that require hand-coded concurrent solutions.</p>
+    <p><strong>Myths and misconceptions</strong>: concurrency does <em>not</em> always improve performance — it only helps when there is a lot of wait time that can be shared. Design <em>does</em> change when writing concurrent programs. And understanding concurrency issues <em>is</em> important when working with a container. Concurrency incurs overhead, correct concurrency is complex even for simple problems, and concurrency bugs aren't usually repeatable — so they are often ignored as one-offs instead of the true defects they are.</p>
+    <p><strong>Defense principles</strong>: follow the Single Responsibility Principle — keep concurrency-related code separate from other code. Limit the scope of data; take data encapsulation to heart. Use copies of data — avoid sharing the data in the first place. Make threads as independent as possible — each thread processes one client request with all of its required data coming from an unshared source.</p>
+    <p><strong>Know your library</strong>. Java 5 offers many improvements: use the provided thread-safe collections, use the Executor framework for executing unrelated tasks, use nonblocking solutions when possible, and be aware that several library classes are not thread safe. <strong>Know your execution models</strong>: producer-consumer, readers-writers, dining philosophers. <strong>Beware dependencies between synchronized methods</strong>: if there is more than one synchronized method on the same shared class, then your system may be written incorrectly. <strong>Keep synchronized sections small</strong>: extending synchronization beyond the minimal critical section increases contention and degrades performance.</p>
+    <p><strong>Writing correct shut-down code is hard</strong>. Graceful shutdown can be hard to get correct, with threads waiting for a signal to continue that never comes. Think about shutdown early and get it working early.</p>
+    <p><strong>Testing threaded code</strong>: treat spurious failures as candidate threading issues. Get your nonthreaded code working first. Make your threaded code pluggable and tunable. Run with more threads than processors, run on different platforms, and instrument your code to try and force failures — by hand or with automated tools like ConTest. The point is to <em>jiggle</em> the code so that threads run in different orderings at different times.</p>
+    <pre class="code-example"><code>// The ++ operator is not atomic!
+public class IdGenerator {
+  int lastIdUsed;
+
+  public int incrementValue() {
+    return ++lastIdUsed;
+  }
+}
+
+// Fix it with synchronized
+public class IdGenerator {
+  int lastIdUsed;
+
+  public synchronized int incrementValue() {
+    return ++lastIdUsed;
+  }
+}</code></pre>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Ideas</h3>
+    <ul>
+      <li>Concurrency decouples what from when; it can improve throughput and structure.</li>
+      <li>Follow SRP: keep concurrency code separate; limit the scope of shared data.</li>
+      <li>Know your library: thread-safe collections, Executor framework, nonblocking solutions.</li>
+      <li>Keep synchronized sections small; beware dependencies between synchronized methods.</li>
+      <li>Test threaded code with jiggling — force failures with instrumentation.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-questions">
+    <h3>Try It Yourself</h3>
+    <ol>
+      <li>Find shared mutable state in your code and limit its scope.</li>
+      <li>Replace a hand-rolled thread pool with an Executor.</li>
+      <li>Add a jiggle point to a test to force different orderings.</li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Emergence</button>
+    <button class="nav-button" data-nav="next">Part Two →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     PART TWO DIVIDER
+     ============================================================ -->
+<section id="part-two" class="book-page cover-page part-page part-two">
+  <div class="cover-content">
+    <p class="part-number">Part Two</p>
+    <h1>Case Studies</h1>
+    <p class="part-desc">Real code, cleaned up step by step — a command-line parser, the JUnit comparison compactor, and a date library called SerialDate.</p>
+  </div>
+  <div class="book-nav">
+    <button class="nav-button" data-nav="next">Begin Chapter 14 →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 14 — SUCCESSIVE REFINEMENT
+     ============================================================ -->
+<section id="ch-successive-refinement" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Part Two · Case Studies · Chapter 14</p>
+    <h2>Successive Refinement</h2>
+    <p class="chapter-tagline">A command-line argument parser, written and rewritten</p>
+  </div>
+
+  <div class="chapter-story">
+    <p>This chapter is a case study in successive refinement. You will see a module that started well but did not scale. Then you will see how the module was refactored and cleaned. Most of us have had to parse command-line arguments from time to time. There are several good utilities available, but none of them do exactly what I want — so I decided to write my own. I call it <code>Args</code>.</p>
+    <p>You simply construct the <code>Args</code> class with the input arguments and a format string, and then query the <code>Args</code> instance for the values of the arguments. The format string <code>"l,p#,d*"</code> defines three command-line arguments: <code>-l</code> is a boolean argument, <code>-p</code> is an integer argument, and <code>-d</code> is a string argument. If the constructor returns without throwing an <code>ArgsException</code>, then the incoming command-line was parsed, and the <code>Args</code> instance is ready to be queried. Methods like <code>getBoolean</code>, <code>getInt</code>, and <code>getString</code> allow us to access the values.</p>
+    <p>But writing clean code is not the same as writing code. My first version was a mess. It had a bewildering number of instance variables, odd strings like "TILT," and try-catch-catch blocks that added up to a festering pile. Earlier versions had been much simpler — when only Boolean arguments were supported, the code was compact and easy to understand. Adding just two more argument types — String and integer — had a massively negative impact. It converted something reasonably maintainable into something I expected to become riddled with bugs.</p>
+    <p>So I stopped. I had at least two more argument types to add, and I could tell that they would make things much worse. If the structure of this code was ever going to be maintainable, now was the time to fix it. So I stopped adding features and started refactoring.</p>
+    <p>Having just added the String and integer arguments, I knew that each argument type required new code in three major places. First, each argument type required some way to parse its schema element in order to select the <code>HashMap</code> for that type. Next, each argument type needed to be parsed in the command-line strings and converted to its true type. Finally, each argument type needed a <code>getXXX</code> method so that it could be returned to the caller as its true type. Many different types, all with similar methods — that sounds like a class to me. And so the <code>ArgumentMarshaler</code> concept was born.</p>
+    <p>The key discipline is <strong>incrementalism</strong>. One of the best ways to ruin a program is to make massive changes to its structure in the name of improvement. To avoid this, I use Test Driven Development. In other words, using TDD, I am not allowed to make a change to the system that breaks that system. Every change I make must keep the system working as it worked before. So I proceeded to make a large number of very tiny changes. Each change moved the structure of the system toward the <code>ArgumentMarshaler</code> concept. And yet each change kept the system working.</p>
+    <pre class="code-example"><code>// After refactoring: clean argument parsing with marshalers
+public class Args {
+  private Map&lt;Character, ArgumentMarshaler&gt; marshalers;
+  private Set&lt;Character&gt; argsFound;
+
+  public boolean getBoolean(char arg) {
+    ArgumentMarshaler am = marshalers.get(arg);
+    return am != null &amp;&amp; (Boolean) am.get();
+  }
+
+  public String getString(char arg) {
+    ArgumentMarshaler am = marshalers.get(arg);
+    return am == null ? "" : (String) am.get();
+  }
+
+  public int getInt(char arg) {
+    ArgumentMarshaler am = marshalers.get(arg);
+    return am == null ? 0 : (Integer) am.get();
+  }
+}</code></pre>
+    <p>It is not enough for code to work. Code that works is often badly broken. Programmers who satisfy themselves with merely working code are behaving unprofessionally. Nothing has a more profound and long-term degrading effect upon a development project than bad code.</p>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Ideas</h3>
+    <ul>
+      <li>Write a rough draft first, then clean it up through successive refinement.</li>
+      <li>TDD keeps the system running at all times — every change must keep tests passing.</li>
+      <li>Incrementalism: tiny changes, each verified, compound into large improvements.</li>
+      <li>Push polymorphic behaviour into derivatives; replace the type-switch with a marshaller.</li>
+      <li>Code that works is not enough — keep it clean or it will drag the team down.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-questions">
+    <h3>Try It Yourself</h3>
+    <ol>
+      <li>Write a rough-draft parser for a tiny command-line, then refactor it after tests pass.</li>
+      <li>Apply the Marshaler pattern to a type-switch in your own code.</li>
+      <li>Commit only when all tests pass — try it for a week.</li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Part Two</button>
+    <button class="nav-button" data-nav="next">JUnit Internals →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 15 — JUNIT INTERNALS
+     ============================================================ -->
+<section id="ch-junit-internals" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Part Two · Case Studies · Chapter 15</p>
+    <h2>JUnit Internals</h2>
+    <p class="chapter-tagline">Even good code can be a little cleaner</p>
+  </div>
+
+  <div class="chapter-story">
+    <p>JUnit is one of the most famous of all Java frameworks. As frameworks go, it is simple in conception, precise in definition, and elegant in implementation. But what does the code look like? In this chapter we critique an example drawn from the JUnit framework. JUnit has had many authors, but it began with Kent Beck and Eric Gamma together on a plane to Atlanta. Kent wanted to learn Java, and Eric wanted to learn about Kent's Smalltalk testing framework.</p>
+    <p>The module we look at is the clever bit of code that helps identify string comparison errors. It is called <code>ComparisonCompactor</code>. Given two strings that differ, such as <code>ABCDE</code> and <code>ABXDE</code>, it will expose the difference by generating a string such as <code>&lt;...B[X]D...&gt;</code>. The code for <code>ComparisonCompactor</code> is nicely partitioned, reasonably expressive, and simple in structure. I ran a code coverage analysis on it using the tests. The code is 100 percent covered. This gives me a high degree of confidence that the code works and a high degree of respect for the craftsmanship of the authors.</p>
+    <p>But the Boy Scout Rule tells us we should leave the module cleaner than we found it. So how can we improve on the original code? The first thing I don't care for is the <code>f</code> prefix for the member variables. Today's environments make this kind of scope encoding redundant, so let's eliminate all the <code>f</code>'s. Next, there is an unencapsulated conditional at the beginning of the <code>compact</code> function — extract a method that explains it.</p>
+    <p>The name of the function is strange. Although it does compact the strings, it actually might not compact them if <code>canBeCompacted</code> returns false. So naming it <code>compact</code> hides the side effect of the error check. The name should really be <code>formatCompactedComparison</code>. The body of the <code>if</code> statement is where the true compacting is done — extract that as <code>compactExpectedAndActual</code>.</p>
+    <p>Careful inspection of <code>findCommonSuffix</code> exposes a <strong>hidden temporal coupling</strong>: it depends on the fact that <code>prefixIndex</code> is calculated by <code>findCommonPrefix</code>. If the two functions were called out of order, there would be a difficult debugging session ahead. So expose this temporal coupling — by merging them into <code>findCommonPrefixAndSuffix</code>, or by passing the prefix as an argument.</p>
+    <p>As I was eliminating the <code>+1</code>s, I noticed that an <code>if</code> statement in <code>compactString</code> was nonfunctional — <code>suffixIndex</code> could never be less than one. This calls into question both <code>if</code> statements in <code>compactString</code>. So comment them out and run the tests. They passed! So restructure <code>compactString</code> to eliminate the extraneous <code>if</code> statements.</p>
+    <p>This is actually quite pretty. The module is separated into a group of analysis functions and another group of synthesis functions. They are topologically sorted so that the definition of each function appears just after it is used. If you look carefully, you will notice that I reversed several of the decisions I made earlier in the chapter. This is typical. Often one refactoring leads to another that leads to the undoing of the first. Refactoring is an iterative process full of trial and error, inevitably converging on something that we feel is worthy of a professional.</p>
+    <pre class="code-example"><code>// Final ComparisonCompactor — analysis functions first, synthesis functions last
+public class ComparisonCompactor {
+  private static final String ELLIPSIS = "...";
+  private static final String DELTA_END = "]";
+  private static final String DELTA_START = "[";
+
+  private int contextLength;
+  private String expected;
+  private String actual;
+  private int prefixLength;
+  private int suffixLength;
+
+  public String formatCompactedComparison(String message) {
+    String compactExpected = expected;
+    String compactActual = actual;
+
+    if (shouldBeCompacted()) {
+      findCommonPrefixAndSuffix();
+      compactExpected = compact(expected);
+      compactActual = compact(actual);
+    }
+    return Assert.format(message, compactExpected, compactActual);
+  }
+
+  private boolean shouldBeCompacted() {
+    return !shouldNotBeCompacted();
+  }
+
+  private boolean shouldNotBeCompacted() {
+    return expected == null ||
+           actual == null ||
+           expected.equals(actual);
+  }
+
+  // ... findCommonPrefixAndSuffix, compact, startingEllipsis, delta, etc.
+}</code></pre>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Ideas</h3>
+    <ul>
+      <li>Even well-written code can be improved — apply the Boy Scout Rule.</li>
+      <li>Extract functions to separate analysis from synthesis.</li>
+      <li>Expose hidden temporal couplings by merging related functions or passing arguments.</li>
+      <li>Eliminate dead code — extraneous <code>if</code> statements, unused variables.</li>
+      <li>Refactoring is iterative; it often undoes earlier decisions as understanding grows.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-questions">
+    <h3>Try It Yourself</h3>
+    <ol>
+      <li>Take a working module and apply the Boy Scout Rule — improve one thing.</li>
+      <li>Identify dead code in a recent file and delete it.</li>
+      <li>Find a <code>+1</code> in your own code and see whether renaming or restructuring can eliminate it.</li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Successive Refinement</button>
+    <button class="nav-button" data-nav="next">Refactoring SerialDate →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 16 — REFACTORING SERIALDATE
+     ============================================================ -->
+<section id="ch-refactoring-serialdate" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Part Two · Case Studies · Chapter 16</p>
+    <h2>Refactoring SerialDate</h2>
+    <p class="chapter-tagline">Small refactorings compound into large improvements</p>
+  </div>
+
+  <div class="chapter-story">
+    <p>If you go to the JCommon library, you will find a package named <code>org.jfree.date</code>, and within that package there is a class named <code>SerialDate</code>. The author is David Gilbert — an experienced and competent programmer who shows a significant degree of professionalism and discipline within his code. For all intents and purposes, this is "good code." And I am going to rip it to pieces. This is not an activity of malice. It is a professional review — something we should all be comfortable doing, and something we should welcome when it is done for us.</p>
+    <p><code>SerialDate</code> is a class that represents a date in Java. Why have such a class, when Java already has <code>java.util.Date</code> and <code>java.util.Calendar</code>? Because <code>java.util.Date</code> can be <em>too</em> precise — it represents an instant in time, accurate to 1/1000th of a second. Sometimes we just want to represent a particular day, without concerning ourselves about the time of day, or the timezone, or anything else. That's what <code>SerialDate</code> is for.</p>
+    <p>The first step is to "make it work." The unit tests in <code>SerialDateTests</code> all pass. Unfortunately a quick inspection shows that they don't test everything. So I wrote my own suite of completely independent unit tests. Even with some of the tests commented out, Clover reports that the new unit tests are executing 170 out of the 185 executable statements. Good — now we can refactor.</p>
+    <p>Then, "make it right." We walk from the top to the bottom of <code>SerialDate</code>, improving it as we go. The opening comment is long out of date, so shorten it. The change history is a leftover from the 1960s — source code control remembers it. The class name <code>SerialDate</code> implies an implementation; the class is abstract and there is good reason to hide the implementation. I choose <code>DayDate</code> as the best compromise. <code>MonthConstants</code> should really be an enum, so change it to one — this lets us get rid of <code>isValidMonthCode</code> and all the month code error checking.</p>
+    <p>The comment on line 93 is redundant — redundant comments are just places to collect lies and misinformation. The comments at line 97 and line 100 talk about serial numbers. The variables they describe are the earliest and latest possible dates that <code>DayDate</code> can describe. But <code>EARLIEST_DATE_ORDINAL</code> is 2, not 0 — the explanation is in a derivative called <code>SpreadsheetDate</code>, and it has nothing to do with <code>DayDate</code>. So move those variables down into <code>SpreadsheetDate</code>.</p>
+    <p>The next variables — <code>MINIMUM_YEAR_SUPPORTED</code> and <code>MAXIMUM_YEAR_SUPPORTED</code> — provide something of a dilemma. A user of an abstract class needs information about its implementation. The solution is the <strong>Abstract Factory</strong> pattern: a <code>DayDateFactory</code> that creates <code>DayDate</code> instances and can answer questions about the implementation.</p>
+    <p>The day constants should really be another enum. The tables — <code>LAST_DAY_OF_MONTH</code>, <code>AGGREGATE_DAYS_TO_END_OF_MONTH</code>, and so on — can be moved or made private. The three sets of constants can be turned into enums: <code>WeekInMonth</code>, <code>DateInterval</code>, and <code>WeekdayRange</code>. You might not agree with the names I've chosen, but they are now in a form that makes them easy to change — they aren't passed as integers anymore; they are passed as symbols.</p>
+    <p>The rest of the refactoring is a long series of small changes. A <code>description</code> field is deleted; so is the default constructor. The <code>isLeapYear</code> method is made more expressive. The <code>addDays</code>, <code>addMonths</code>, and <code>addYears</code> methods are converted from static to instance. The <code>getPreviousDayOfWeek</code>, <code>getFollowingDayOfWeek</code>, and <code>getNearestDayOfWeek</code> methods are simplified. The <code>weekInMonthToString</code> and <code>relativeToString</code> methods are moved to enums and eventually deleted. The abstract methods are pulled up from <code>SpreadsheetDate</code> into <code>DayDate</code>. And the magic number <code>1</code> is replaced with <code>Month.JANUARY.toInt()</code> or <code>Day.SUNDAY.toInt()</code>.</p>
+    <pre class="code-example"><code>// Before: scattered constants and int-based month codes
+public abstract class SerialDate implements Comparable, Serializable, MonthConstants {
+  public static final int MONDAY = Calendar.MONDAY;
+  // ...
+}
+
+// After: enums and polymorphism
+public enum Month {
+  JANUARY(1), FEBRUARY(2), MARCH(3),
+  APRIL(4), MAY(5), JUNE(6),
+  JULY(7), AUGUST(8), SEPTEMBER(9),
+  OCTOBER(10), NOVEMBER(11), DECEMBER(12);
+
+  public int quarter() {
+    return 1 + (index - 1) / 3;
+  }
+}</code></pre>
+    <p>Interestingly, the code coverage in <code>DayDate</code> has decreased to 84.9 percent! This is not because less functionality is being tested; rather it is because the class has shrunk so much that the few uncovered lines have a greater weight. <code>DayDate</code> now has 45 out of 53 executable statements covered by tests. The uncovered lines are so trivial that they weren't worth testing.</p>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Ideas</h3>
+    <ul>
+      <li>Small refactorings compound into large improvements.</li>
+      <li>Replace sets of related <code>int</code> constants with enums — easier to rename and change.</li>
+      <li>Remove dead code and obsolete comments; move implementation details into derivatives.</li>
+      <li>Use the Abstract Factory pattern when a base class needs information about its derivatives.</li>
+      <li>Test coverage enables bold refactoring — but coverage can drop when the class shrinks.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-questions">
+    <h3>Try It Yourself</h3>
+    <ol>
+      <li>Replace a set of related <code>int</code> constants with an enum.</li>
+      <li>Find a class that is a "base" but knows about its derivatives — invert the dependency with a factory.</li>
+      <li>Delete a feature flag that has been "on" for more than a year.</li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← JUnit Internals</button>
+    <button class="nav-button" data-nav="next">Part Three →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     PART THREE DIVIDER
+     ============================================================ -->
+<section id="part-three" class="book-page cover-page part-page part-three">
+  <div class="cover-content">
+    <p class="part-number">Part Three</p>
+    <h1>Smells and Heuristics</h1>
+    <p class="part-desc">A knowledge base of code smells and heuristics — the payoff for the case studies, and a reference for a lifetime of writing clean code.</p>
+  </div>
+  <div class="book-nav">
+    <button class="nav-button" data-nav="next">Begin Chapter 17 →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 17 — SMELLS AND HEURISTICS
+     ============================================================ -->
+<section id="ch-smells-and-heuristics" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Part Three · Smells and Heuristics · Chapter 17</p>
+    <h2>Smells and Heuristics</h2>
+    <p class="chapter-tagline">A knowledge base for the practising craftsman</p>
+  </div>
+
+  <div class="chapter-story">
+    <p>Martin Fowler identified many different "Code Smells." The list that follows includes many of Martin's smells and adds many more of my own. It also includes other pearls and heuristics that I use to practise my trade. I compiled this list by walking through several different programs and refactoring them. As I made each change, I asked myself <em>why</em> I made that change and then wrote the reason down here. The result is a rather long list of things that smell bad to me when I read code.</p>
+    <p><strong>Comments</strong> (C1–C5): inappropriate information (change histories, authors), obsolete comments, redundant comments, poorly written comments, commented-out code. When you see commented-out code, delete it — your source control still remembers it.</p>
+    <p><strong>Environment</strong> (E1–E2): building a project should be a single trivial operation. Running all the unit tests should be a single trivial operation.</p>
+    <p><strong>Functions</strong> (F1–F4): too many arguments, output arguments, flag arguments, dead functions. More than three arguments is very questionable and should be avoided with prejudice.</p>
+    <p><strong>General</strong> (G1–G36): multiple languages in one source file; obvious behaviour unimplemented; incorrect behaviour at the boundaries; overridden safeties; duplication; code at the wrong level of abstraction; base classes depending on their derivatives; too much information; dead code; vertical separation; inconsistency; clutter; artificial coupling; feature envy; selector arguments; obscured intent; misplaced responsibility; inappropriate static; use explanatory variables; function names should say what they do; understand the algorithm; make logical dependencies physical; prefer polymorphism to if/else or switch/case; follow standard conventions; replace magic numbers with named constants; be precise; structure over convention; encapsulate conditionals; avoid negative conditionals; functions should do one thing; hidden temporal couplings; don't be arbitrary; encapsulate boundary conditions; functions should descend only one level of abstraction; keep configurable data at high levels; avoid transitive navigation.</p>
+    <p><strong>Java</strong> (J1–J3): avoid long import lists by using wildcards; don't inherit constants; constants versus enums — use enums.</p>
+    <p><strong>Names</strong> (N1–N7): choose descriptive names; choose names at the appropriate level of abstraction; use standard nomenclature where possible; unambiguous names; use long names for long scopes; avoid encodings; names should describe side effects.</p>
+    <p><strong>Tests</strong> (T1–T9): insufficient tests; use a coverage tool; don't skip trivial tests; an ignored test is a question about an ambiguity; test boundary conditions; exhaustively test near bugs; patterns of failure are revealing; test coverage patterns can be revealing; tests should be fast.</p>
+    <p>This list is meant to be read from top to bottom and also to be used as a reference. There is a cross-reference for each heuristic that shows where it is referenced in the rest of the text. Clean code is not written by following a set of rules. You don't become a software craftsman by learning a list of heuristics. Professionalism and craftsmanship come from <em>values</em> that drive <em>disciplines</em>.</p>
+    <pre class="code-example"><code>// G5: Duplication
+int size() { /* ... */ }
+boolean isEmpty() { return 0 == size(); }
+
+// G25: Replace magic numbers with named constants
+double milesWalked = feetWalked / 5280.0;   // magic
+double milesWalked = feetWalked / FEET_PER_MILE;   // named
+
+// G29: Avoid negative conditionals
+if (!buffer.shouldNotCompact()) { /* ... */ }   // negative
+if (buffer.shouldCompact())   { /* ... */ }   // positive
+
+// G36: Avoid transitive navigation
+myCollaborator.doSomething();   // good
+a.getB().getC().doSomething();  // train wreck</code></pre>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Ideas</h3>
+    <ul>
+      <li>Comments (C1–C5): inappropriate, obsolete, redundant, poorly written, commented-out.</li>
+      <li>Functions (F1–F4): too many arguments, output arguments, flag arguments, dead functions.</li>
+      <li>General (G1–G36): duplication, wrong level of abstraction, dead code, magic numbers, feature envy.</li>
+      <li>Names (N1–N7): descriptive, appropriate level, unambiguous, no encodings, describe side effects.</li>
+      <li>Tests (T1–T9): sufficient, fast, independent, on boundaries, near bugs.</li>
+      <li>Heuristics are prompts to think — not rules to follow blindly.</li>
+    </ul>
+  </div>
+
+  <div class="chapter-questions">
+    <h3>Try It Yourself</h3>
+    <ol>
+      <li>Walk through one source file and mark every smell you find.</li>
+      <li>Fix the top three smells.</li>
+      <li>Write a heuristic of your own — a rule you apply when writing code — and add it to the list.</li>
+    </ol>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Part Three</button>
+    <button class="nav-button" data-nav="next">Glossary →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     GLOSSARY
+     ============================================================ -->
+<section id="glossary" class="book-page chapter-page">
+  <div class="chapter-header">
+    <p class="chapter-part">Appendix</p>
+    <h2>Glossary of Useful Terms</h2>
+    <p class="chapter-tagline">A quick reference for the practising craftsman</p>
+  </div>
+
+  <div class="chapter-ideas">
+    <h3>Key Terms</h3>
+    <dl class="glossary-list">
+      <dt>Active Record</dt>
+      <dd>A DTO with navigational methods like <code>save</code> and <code>find</code>; treat it as a data structure, and keep business rules in separate objects.</dd>
+
+      <dt>Args</dt>
+      <dd>The command-line argument parser from the successive refinement case study; uses the Marshaler pattern.</dd>
+
+      <dt>ArgumentMarshaler</dt>
+      <dd>An object that knows how to parse and hold one kind of argument (boolean, string, integer, double).</dd>
+
+      <dt>AOP (Aspect-Oriented Programming)</dt>
+      <dd>A general-purpose approach to restoring modularity for cross-cutting concerns by specifying aspects.</dd>
+
+      <dt>BOY SCOUT RULE</dt>
+      <dd>Leave the campground cleaner than you found it; leave each module a little cleaner than you found it.</dd>
+
+      <dt>ComparisonCompactor</dt>
+      <dd>The JUnit module that exposes string comparison differences; the subject of Chapter 15.</dd>
+
+      <dt>Cross-cutting concern</dt>
+      <dd>A concern (persistence, security, transactions) that cuts across the object boundaries of a domain.</dd>
+
+      <dt>Dependency Injection (DI)</dt>
+      <dd>Inversion of Control applied to dependency management; an object's dependencies are provided by an external mechanism.</dd>
+
+      <dt>DIP (Dependency Inversion Principle)</dt>
+      <dd>Depend upon abstractions, not on concrete details.</dd>
+
+      <dt>DRY (Don't Repeat Yourself)</dt>
+      <dd>Every piece of knowledge must have a single, unambiguous representation in the system.</dd>
+
+      <dt>DTO (Data Transfer Object)</dt>
+      <dd>A class with public variables and no functions; a pure data structure.</dd>
+
+      <dt>Emergent design</dt>
+      <dd>Good design that emerges from following four simple rules: runs all tests, no duplication, expresses intent, minimises classes and methods.</dd>
+
+      <dt>F.I.R.S.T.</dt>
+      <dd>Fast, Independent, Repeatable, Self-Validating, Timely — the five rules of clean tests.</dd>
+
+      <dt>Heuristic</dt>
+      <dd>A rule of thumb, a prompt to think, not a hard rule.</dd>
+
+      <dt>Law of Demeter</dt>
+      <dd>A module should not know about the innards of the objects it manipulates; talk to friends, not strangers.</dd>
+
+      <dt>Learning test</dt>
+      <dd>A test written to learn a third-party API; it focuses on what you want out of the API.</dd>
+
+      <dt>Marshaler pattern</dt>
+      <dd>A pattern that pushes argument-type behaviour into polymorphic derivatives, replacing type-switches.</dd>
+
+      <dt>OCP (Open-Closed Principle)</dt>
+      <dd>Classes should be open for extension but closed for modification.</dd>
+
+      <dt>POJO (Plain-Old Java Object)</dt>
+      <dd>An object with no framework dependencies; the domain logic of an application.</dd>
+
+      <dt>Refactoring</dt>
+      <dd>Improving the design of existing code without changing its behaviour.</dd>
+
+      <dt>SerialDate</dt>
+      <dd>A date class from JCommon that represents a day without a time; the subject of Chapter 16.</dd>
+
+      <dt>Smell</dt>
+      <dd>A surface indication that usually corresponds to a deeper problem in the code.</dd>
+
+      <dt>SRP (Single Responsibility Principle)</dt>
+      <dd>A class or module should have one, and only one, reason to change.</dd>
+
+      <dt>TDD (Test Driven Development)</dt>
+      <dd>A discipline in which tests are written before the production code, in a thirty-second cycle.</dd>
+
+      <dt>Test Double</dt>
+      <dd>A stand-in for a real object used in testing; mocks and stubs are examples.</dd>
+
+      <dt>Train wreck</dt>
+      <dd>A chain of method calls like <code>a.getB().getC().doSomething()</code>; a Law of Demeter violation.</dd>
+
+      <dt>Unchecked exception</dt>
+      <dd>An exception that does not need to be declared in a method signature; preferred over checked exceptions for application development.</dd>
+
+      <dt>YAGNI (You Aren't Gonna Need It)</dt>
+      <dd>Don't build what you don't need; implement only today's stories.</dd>
+    </dl>
+  </div>
+
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Smells and Heuristics</button>
+    <button class="nav-button" data-nav="next">Back Cover →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     BACK COVER
+     ============================================================ -->
+<section id="back" class="book-page cover-page back-cover">
+  <div class="cover-content">
+    <h2>The End… Or Just the Beginning?</h2>
+    <p>You have walked through the whole craft — from a first variable name to a whole system.</p>
+    <p>But the best way to learn clean code is to <b>keep going</b>. Write a function. Break it. Refactor it. Try again.</p>
+    <p class="closing-line">Happy coding!</p>
+    <p class="cover-note">Refactored from <em>Clean Code: A Handbook of Agile Software Craftsmanship</em> by Robert C. Martin, with gratitude for showing a generation of programmers how to care about their craft. All mistakes in the retelling are the adapter's own.</p>
+    <p class="cover-credit">
+      Refactored &amp; illustrated by<br>
+      <a href="https://agunechemba.name.ng" target="_blank" rel="noopener">Agunechemba Ekene</a>
+    </p>
+  </div>
+  <div class="book-nav">
+    <button class="nav-button" data-nav="prev">← Glossary</button>
+    <button class="nav-button" data-nav="first">↺ Begin Again</button>
+  </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
